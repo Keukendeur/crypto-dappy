@@ -1,10 +1,10 @@
 import React from 'react'
-import { useHistory } from "react-router-dom"
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header'
 import "./Home.page.css"
 
 export default function Home() {
-  const history = useHistory()
+  const navigate = useNavigate();
 
   return (
     <>
@@ -14,7 +14,7 @@ export default function Home() {
       />
       <img className="header-image"
         alt="Header"
-        onClick={() => history.push("/packs")}
+        onClick={() => navigate("/packs")}
         src={`${process.env.PUBLIC_URL}/assets/PackDrops.png`}
       />
     </>

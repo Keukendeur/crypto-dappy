@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import { useUser } from '../providers/UserProvider'
 import Dappy from './Dappy'
@@ -7,7 +7,7 @@ import "./DappyCard.css"
 
 export default function DappyCard({ dappy, store, designer }) {
   const { userDappies, mintDappy } = useUser()
-  const history = useHistory()
+  const navigate = useNavigate();
   const { id, dna, image, name, rarity, price, type, serialNumber } = dappy
   const owned = userDappies.some(d => d?.id === dappy?.id)
 
@@ -21,7 +21,7 @@ export default function DappyCard({ dappy, store, designer }) {
 
   const PackButton = () => (
     <div
-      onClick={() => history.push(`/packs/${id}`)}
+      onClick={() => navigate(`/packs/${id}`)}
       className="btn btn-bordered btn-light btn-dappy">
       More
     </div>

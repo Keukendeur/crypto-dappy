@@ -133,7 +133,7 @@ pub contract DappyContract {
       pre {
         DappyContract.families[familyID] != nil : "Could not borrow family: family does not exist."
       }
-      return &DappyContract.families[familyID] as &Family
+      return (&DappyContract.families[familyID] as &Family?)!
     }
 
     pub fun destroyFamily(familyID: UInt32) {
@@ -189,7 +189,7 @@ pub contract DappyContract {
     pub fun listDappies(): {UInt64: Template} {
       var dappyTemplates: {UInt64:Template} = {}
       for key in self.ownedDappies.keys {
-        let el = &self.ownedDappies[key] as &Dappy
+        let el = (&self.ownedDappies[key] as &Dappy?)!
         dappyTemplates.insert(key: el.id, el.data)
       }
       return dappyTemplates
@@ -222,7 +222,7 @@ pub contract DappyContract {
       self.families[familyID] != nil : "Could not mint dappy from family: family does not exist."
       self.templates[templateID] != nil : "Could not mint dappy from family: template does not exist."
     }
-    let familyRef = &self.families[familyID] as! &Family
+    let familyRef = (&self.families[familyID] as &Family?)!
     if familyRef.price > paymentVault.balance {
       panic("Could not mint dappy from family: payment balance is not sufficient.")
     }
@@ -237,7 +237,7 @@ pub contract DappyContract {
       self.families[familyID] != nil : "Could not batch mint dappies from family: family does not exist."
     }
 
-    let familyRef = &self.families[familyID] as! &Family
+    let familyRef = (&self.families[familyID] as &Family?)!
     if familyRef.price > paymentVault.balance {
       panic("Could not batch mint dappy from family: payment balance is not sufficient.")
     }
@@ -260,7 +260,7 @@ pub contract DappyContract {
   pub fun listFamilies(): [FamilyReport] {
     var families: [FamilyReport] = []
     for key in self.families.keys {
-      let el = &self.families[key] as &Family
+      let el = (&self.families[key] as &Family?)!
       families.append(FamilyReport(
         name: el.name, 
         familyID: el.familyID, 
@@ -277,7 +277,7 @@ pub contract DappyContract {
       self.families[familyID] != nil : "Could not list family templates: family does not exist."
     }
     var report: [UInt32] = []
-    let el = &self.families[familyID] as! &Family
+    let el = (&self.families[familyID] as &Family?)!
     for temp in el.templates {
       report.append(temp)
     }
@@ -288,7 +288,7 @@ pub contract DappyContract {
     pre {
       self.families[familyID] != nil : "Could not get family: family does not exist."
     }
-    let el = &self.families[familyID] as! &Family
+    let el = (&self.families[familyID] as &Family?)!
     let report = FamilyReport(
       name: el.name, 
       familyID: el.familyID, 
@@ -303,7 +303,7 @@ pub contract DappyContract {
     pre {
       self.families[familyID] != nil : "Family does not exist"
     }
-    let el = &self.families[familyID] as! &Family
+    let el = (&self.families[familyID] as &Family?)!
     return el.templates.contains(templateID)
   }
 
