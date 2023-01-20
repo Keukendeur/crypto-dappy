@@ -11,6 +11,7 @@ export default function PackDetails() {
   const { packID } = useParams()
   const { fetchDappiesOfPack, mintFromPack, fetchPackDetails } = useDappyPacks()
 
+
   useEffect(() => {
     fetchDappies()
     //eslint-disable-next-line
