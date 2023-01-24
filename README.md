@@ -34,3 +34,4 @@ Manager **Benjamin Ebner** ([Twitter](https://twitter.com/_bebner)|[Medium](http
 ## Where to get help?
 
 If you feel stuck building the project or you have any questions regarding the course, you can get help in the dedicated [Flow community forum](https://forum.onflow.org/c/community-projects/cryptodappy/35). 
+
