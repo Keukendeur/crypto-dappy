@@ -1,6 +1,6 @@
-import DappyContract from "../contracts/DappyContract.cdc"
+import "DappyContract"
 
-transaction(familyID: UInt32, templateID: UInt32) {
+transaction(familyID: UInt32, templateIDs: [UInt32]) {
 
   var adminRef: &DappyContract.Admin
 
@@ -10,6 +10,10 @@ transaction(familyID: UInt32, templateID: UInt32) {
 
   execute {
     let familyRef = self.adminRef.borrowFamily(familyID: familyID)
-    familyRef.addTemplate(templateID: templateID)
+    let templateIdsLength = templateID.length
+    for id in templateIdsLength {
+      familyRef.addTemplate(templateID: id)
+    }
   }
+  
 }

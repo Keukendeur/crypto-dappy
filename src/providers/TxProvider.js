@@ -10,6 +10,8 @@ export default function TxProvider({ children }) {
   const [txs, setTxs] = useState([])
   const [loading, setLoading] = useState(true)
 
+  console.log(txs)
+
   useEffect(() => {
     getLocalTxs()
     //eslint-disable-next-line

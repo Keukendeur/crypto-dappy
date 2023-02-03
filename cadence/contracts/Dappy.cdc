@@ -1,8 +1,5 @@
 import NonFungibleToken from "./NonFungibleToken.cdc"
-<<<<<<< HEAD
-=======
 import MetadataViews from "./MetadataViews.cdc"
->>>>>>> buildFix
 
 pub contract Dappy: NonFungibleToken {
 
@@ -25,18 +22,12 @@ pub contract Dappy: NonFungibleToken {
     //
     pub var totalSupply: UInt64
 
-<<<<<<< HEAD
-    pub resource NFT: NonFungibleToken.INFT {
-=======
     pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
->>>>>>> buildFix
 
         pub let id: UInt64
 
         pub let metadata: {String: String}
 
-<<<<<<< HEAD
-=======
         // Proxy for MetadataViews.Resolver.getViews implemented by Template
         pub fun getViews(): [Type] {
             return [
@@ -112,7 +103,6 @@ pub contract Dappy: NonFungibleToken {
       return nil
     }
 
->>>>>>> buildFix
         init(id: UInt64, metadata: {String: String}) {
             self.id = id
             self.metadata = metadata
@@ -131,11 +121,7 @@ pub contract Dappy: NonFungibleToken {
         }
     }
 
-<<<<<<< HEAD
-    pub resource Collection: DappyCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic {
-=======
     pub resource Collection: DappyCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
->>>>>>> buildFix
         
         // dictionary of NFTs
         // NFT is a resource type with an `UInt64` ID field
@@ -177,8 +163,6 @@ pub contract Dappy: NonFungibleToken {
             return self.ownedNFTs.keys
         }
 
-<<<<<<< HEAD
-=======
         pub fun borrowViewResolver(id: UInt64): &{MetadataViews.Resolver}{
             pre {
                 self.ownedNFTs.containsKey(id)
@@ -189,7 +173,6 @@ pub contract Dappy: NonFungibleToken {
             return dappyNFT
         }
 
->>>>>>> buildFix
         // borrowNFT
         // Gets a reference to an NFT in the collection
         // so that the caller can read its metadata and call its methods

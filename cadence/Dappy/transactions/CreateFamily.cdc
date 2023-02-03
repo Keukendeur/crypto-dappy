@@ -1,4 +1,4 @@
-import DappyContract from "../contracts/DappyContract.cdc"
+import "DappyContract"
 
 transaction(name: String, price: UFix64) {
 
@@ -12,6 +12,3 @@ transaction(name: String, price: UFix64) {
     self.adminRef.createFamily(name: name, price: price)
   }
 }
- 
-
-//flow transactions send --signer=testnet-account cadence/Dappy/transactions/CreateFamily.cdc 'Yellow Dappies' '140.00000000' -n=testnet

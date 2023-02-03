@@ -35,6 +35,7 @@ export default function useCollection(user) {
       cadence: CREATE_COLLECTION
 
     })
+
     addTx(res)
     await tx(res).onceSealed()
     setCollection(true)

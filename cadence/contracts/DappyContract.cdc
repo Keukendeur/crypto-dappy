@@ -1,4 +1,4 @@
-import FungibleToken from "./FungibleToken.cdc"
+import FungibleToken from 0x9a0766d93b6608b7
 
 pub contract DappyContract {
   access(self) var templates: {UInt32: Template}

@@ -6,26 +6,21 @@
 		}
 	},
 	"contracts": {
-		"Dappy": "./cadence/contracts/Dappy.cdc",
-		"DappyContract": "./cadence/contracts/DappyContract.cdc",
-		"FUSD": {
-			"source": "./cadence/contracts/FUSD.cdc",
+		"DappyContract": { 
+			"source": "./contracts/DappyContract.cdc",
 			"aliases": {
-				"testnet": "0xe223d8a629e49c68"
+				"testnet": "0x1b97c2d4f7e33f11"
 			}
 		},
 		"FungibleToken": {
-			"source": "./cadence/contracts/FungibleToken.cdc",
+			"source": "./contracts/FungibleToken.cdc",
 			"aliases": {
-				"testnet": "0x9a0766d93b6608b7",
-				"emulator": "ee82856bf20e2aa6"
+				"testnet": "0x9a0766d93b6608b7"
 			}
 		},
-		"NonFungibleToken": {
-			"source": "./cadence/contracts/NonFungibleToken.cdc",
+		"FUSD": {
 			"aliases": {
-				"testnet": "0x631e88ae7f1d7c20",
-				"emulator": "ee82856bf20e2aa6"
+				"testnet": "0xe223d8a629e49c68"
 			}
 		}
 	},
@@ -39,6 +34,17 @@
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "51303559a16fd9d5fbaa0d88addcbdcb21b323b2ae3a51dd46fc7b800d55302e"
+		},
+		"testnet-account": {
+			"address": "0xa3bde7c6474dedea",
+			"key": "30f6b3c018942436ac578c348f6d54a7fb62eb3f3b9ab6eead99b4b16dc66064"
+		}
+	},
+	"deployments": {
+		"testnet": {
+			"testnet-account": [
+				"DappyContract"
+			]
 		}
 	}
 }
