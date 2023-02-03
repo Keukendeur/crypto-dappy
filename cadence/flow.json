@@ -9,7 +9,7 @@
 		"DappyContract": { 
 			"source": "./contracts/DappyContract.cdc",
 			"aliases": {
-				"testnet": "0x1b97c2d4f7e33f11"
+				"testnet": "YOUR-ADDRESS"
 			}
 		},
 		"FungibleToken": {
@@ -36,8 +36,8 @@
 			"key": "51303559a16fd9d5fbaa0d88addcbdcb21b323b2ae3a51dd46fc7b800d55302e"
 		},
 		"testnet-account": {
-			"address": "0xa3bde7c6474dedea",
-			"key": "30f6b3c018942436ac578c348f6d54a7fb62eb3f3b9ab6eead99b4b16dc66064"
+			"address": "YOUR-ADDRESS",
+			"key": "YOUR-PRIVATE-KEY"
 		}
 	},
 	"deployments": {
