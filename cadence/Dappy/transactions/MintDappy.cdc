@@ -1,8 +1,9 @@
-import DappyContract from "../contracts/DappyContract.cdc"
-import FungibleToken from "../contracts/FungibleToken.cdc"
-import FUSD from "../contracts/FUSD.cdc"
+import "DappyContract"
+import FungibleToken from 0x9a0766d93b6608b7
+import FUSD from 0xe223d8a629e49c68
 
-transaction(familyID: UInt32, templateIDs: [UInt32], amount: UFix64 ) {
+
+transaction(templateID: UInt32, amount: UFix64) {
   let receiverReference: &DappyContract.Collection{DappyContract.Receiver}
   let sentVault: @FungibleToken.Vault
 
@@ -14,7 +15,7 @@ transaction(familyID: UInt32, templateIDs: [UInt32], amount: UFix64 ) {
   }
 
   execute {
-    let collection <- DappyContract.batchMintDappiesFromFamily(familyID: familyID, templateIDs: templateIDs, paymentVault: <-self.sentVault)
-    self.receiverReference.batchDeposit(collection: <-collection)
+    let newDappy <- DappyContract.mintDappy(templateID: templateID, paymentVault: <-self.sentVault)
+    self.receiverReference.deposit(token: <-newDappy)
   }
 }

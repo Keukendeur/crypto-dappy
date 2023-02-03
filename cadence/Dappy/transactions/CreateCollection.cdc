@@ -1,4 +1,4 @@
-import DappyContract from "../contracts/DappyContract.cdc"
+import "DappyContract"
 
 transaction {
   prepare(acct: AuthAccount) {

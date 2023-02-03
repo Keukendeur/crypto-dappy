@@ -1,6 +1,6 @@
-import DappyContract from "../contracts/DappyContract.cdc"
+import "DappyContract"
 
-transaction(dna: String, name: String) {
+transaction(name: String, price: UFix64) {
 
   var adminRef: &DappyContract.Admin
 
@@ -9,7 +9,6 @@ transaction(dna: String, name: String) {
   }
 
   execute {
-    self.adminRef.createTemplate(dna: dna, name: name)
+    self.adminRef.createFamily(name: name, price: price)
   }
 }
- 

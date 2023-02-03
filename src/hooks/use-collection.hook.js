@@ -32,10 +32,10 @@ export default function useCollection(user) {
 
   const createCollection = async () => {
     let res = await mutate({
-      cadence: CREATE_COLLECTION,
-      limit: 55
+      cadence: CREATE_COLLECTION
 
     })
+
     addTx(res)
     await tx(res).onceSealed()
     setCollection(true)
@@ -44,8 +44,7 @@ export default function useCollection(user) {
   const deleteCollection = async () => {
     try {
       let res = await mutate({
-        cadence: DELETE_COLLECTION,
-        limit: 75
+        cadence: DELETE_COLLECTION
       })
       addTx(res)
       await tx(res).onceSealed()

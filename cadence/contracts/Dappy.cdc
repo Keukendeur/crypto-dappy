@@ -1,4 +1,5 @@
 import NonFungibleToken from "./NonFungibleToken.cdc"
+import MetadataViews from "./MetadataViews.cdc"
 
 pub contract Dappy: NonFungibleToken {
 
@@ -21,11 +22,86 @@ pub contract Dappy: NonFungibleToken {
     //
     pub var totalSupply: UInt64
 
-    pub resource NFT: NonFungibleToken.INFT {
+    pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
 
         pub let id: UInt64
 
         pub let metadata: {String: String}
+
+        // Proxy for MetadataViews.Resolver.getViews implemented by Template
+        pub fun getViews(): [Type] {
+            return [
+                Type<MetadataViews.NFTView>(),
+                Type<MetadataViews.Display>(),
+                Type<MetadataViews.Royalties>(),
+                Type<MetadataViews.ExternalURL>(),
+                Type<MetadataViews.NFTCollectionDisplay>(),
+                Type<MetadataViews.NFTCollectionData>()
+            ]
+        }
+
+        pub fun resolveView(_ view: Type): AnyStruct? {
+      switch view {
+        case Type<MetadataViews.NFTView>():
+          let viewResolver = &self as &{MetadataViews.Resolver}
+          return MetadataViews.NFTView(
+              id : self.id,
+              uuid: self.uuid,
+              display: MetadataViews.getDisplay(viewResolver),
+              externalURL : MetadataViews.getExternalURL(viewResolver),
+              collectionData : MetadataViews.getNFTCollectionData(viewResolver),
+              collectionDisplay : MetadataViews.getNFTCollectionDisplay(viewResolver),
+              royalties : MetadataViews.getRoyalties(viewResolver),
+              traits : MetadataViews.getTraits(viewResolver)
+          )
+        case Type<MetadataViews.Display>():
+          return MetadataViews.Display(
+            name: self.metadata["name"]!,
+            description: self.metadata["description"]!,
+            thumbnail:
+                MetadataViews.IPFSFile(
+                    cid: self.metadata["imageCID"]!, 
+                    path: nil
+                ),
+            )
+        case Type<MetadataViews.ExternalURL>():
+          return MetadataViews.ExternalURL("https://demo.cryptodappy.com/")
+        case Type<MetadataViews.NFTCollectionData>():
+          return MetadataViews.NFTCollectionData(
+            storagePath: Dappy.CollectionStoragePath,
+            publicPath: Dappy.CollectionPublicPath,
+            providerPath: Dappy.CollectionPrivatePath,
+            publicCollection: Type<@Dappy.Collection>(),
+            publicLinkedType: Type<&Dappy.Collection{NonFungibleToken.CollectionPublic, NonFungibleToken.Receiver, MetadataViews.ResolverCollection}>(),
+            providerLinkedType: Type<&Dappy.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>(),
+            createEmptyCollectionFunction: fun(): @NonFungibleToken.Collection{
+              return <- Dappy.createEmptyCollection()
+            }
+          )
+        case Type<MetadataViews.NFTCollectionDisplay>():
+            let squareMedia = MetadataViews.Media(
+                file: MetadataViews.HTTPFile(
+                    url: "https://demo.cryptodappy.com/assets/DappyPink.png"
+                ),
+                mediaType: "image"
+            )
+            let bannerMedia = MetadataViews.Media(
+                file: MetadataViews.HTTPFile(
+                    url: "https://demo.cryptodappy.com/assets/DappyPink.png"
+                ),
+                mediaType: "image"
+            )
+          return MetadataViews.NFTCollectionDisplay(
+            name: "Crypto Dappy",
+            description: "The brand new collectible game on the blockchain.",
+            externalURL: MetadataViews.ExternalURL("https://demo.cryptodappy.com/"),
+            squareImage: squareMedia,
+            bannerImage: bannerMedia,
+            socials: {}
+          )
+      }
+      return nil
+    }
 
         init(id: UInt64, metadata: {String: String}) {
             self.id = id
@@ -45,7 +121,7 @@ pub contract Dappy: NonFungibleToken {
         }
     }
 
-    pub resource Collection: DappyCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic {
+    pub resource Collection: DappyCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
         
         // dictionary of NFTs
         // NFT is a resource type with an `UInt64` ID field
@@ -85,6 +161,16 @@ pub contract Dappy: NonFungibleToken {
         //
         pub fun getIDs(): [UInt64] {
             return self.ownedNFTs.keys
+        }
+
+        pub fun borrowViewResolver(id: UInt64): &{MetadataViews.Resolver}{
+            pre {
+                self.ownedNFTs.containsKey(id)
+                : "NFT does not exist in collection."
+            }
+            let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
+            let dappyNFT = nft as! &NFT
+            return dappyNFT
         }
 
         // borrowNFT

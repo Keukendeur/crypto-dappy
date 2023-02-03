@@ -1,4 +1,4 @@
-import DappyContract from "../contracts/DappyContract.cdc"
+import "DappyContract"
 
 pub fun main(addr: Address): {UInt64: DappyContract.Template} {
   let account = getAccount(addr)
@@ -7,3 +7,5 @@ pub fun main(addr: Address): {UInt64: DappyContract.Template} {
   let dappies = ref.listDappies()
   return dappies
 }
+
+// flow scripts execute --network testnet Dappy/scripts/ListUserDappies.cdc '0x1b97c2d4f7e33f11'

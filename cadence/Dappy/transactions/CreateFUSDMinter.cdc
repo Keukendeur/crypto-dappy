@@ -1,4 +1,4 @@
-import FUSD from "../contracts/FUSD.cdc"
+import FUSD from 0xe223d8a629e49c68
 
 transaction {
   prepare (acct: AuthAccount) {
